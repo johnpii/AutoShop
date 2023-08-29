@@ -1,0 +1,59 @@
+﻿@model AutoShop.ViewModels.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<script>
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("Password");
+    var togglePasswordIcon = document.getElementById("toggle-password");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        togglePasswordIcon.className = "bi bi-eye";
+    } else {
+        passwordInput.type = "password";
+        togglePasswordIcon.className = "bi bi-eye-slash";
+    }
+}
+</script>
+
+<h1 align="center">Вход</h1>
+<hr />
+<div class="row d-flex justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Error <a href="/Account/Regist" class="alert-link">Зарегестрироваться</a>
+                </div>
+            }
+            <div class="form-group mt-2 mb-2">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <label asp-for="Password" class="control-label"></label>
+            <div class="input-group">
+                <input asp-for="Password" type="password" class="form-control" id="Password"/>
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" onclick="togglePasswordVisibility()" type="button">
+                        <i class="bi bi-eye-slash" id="toggle-password"></i>
+                    </button>
+                </div>
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="form-group mt-2" align="center">
+                <input type="submit" value="Log In" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

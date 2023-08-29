@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AutoShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AutoShop.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons-1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="true" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Auto Shop</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AutoShop" asp-action="Index">Каталог</a>
+                        </li>
+                        @if(User.IsInRole("admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Редактор</a>
+                            </li>
+                         }
+                    </ul>
+                </div>
+                <div class="d-flex">
+                    <ul class="navbar-nav flex-grow-1">
+                        <div class="navbar-collapse collapse">
+                            <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
+                                    @if (Context.Session.GetString($"cart_{Context.Request.Cookies["userId"]}") != null && User.Identity.IsAuthenticated)
+                                    {
+                                        <i class="bi bi-bag-check mx-2" style="font-size: 1.5rem;"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-bag mx-2" style="font-size: 1.5rem;" id="cart"></i>
+                                    }
+                                    </a>
+                            </li>
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                             <li class="nav-item me-4" style="display: flex;align-items: center;">
+                                <i class="bi bi-person" style="font-size: 1.5rem; margin-right: 5px;"></i>
+                                <span>@User.Identity.Name</span>
+                            </li>
+                        }
+                        <div class="navbar-collapse collapse">
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a class="btn btn-outline-primary" asp-area="" asp-controller="Account" asp-action="Logout">Log Out</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-outline-primary" asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
+                                    <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="Regist">Sign Up</a>
+                                }
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Auto Shop
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

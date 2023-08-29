@@ -1,0 +1,80 @@
+﻿@model IEnumerable<AutoShop.Models.AutoModelWithIdAndImage>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<script>
+    function addToCart(autoId) {
+        $.ajax({
+            type: "POST",
+            url: "/Cart/addToCart",
+            data: { Id: autoId },
+            success: function (data) {
+                var message = $("<div>")
+                    .html("Товар добавлен в корзину!")
+                    .addClass("message")
+                    .css({
+                        "background-color": "green",
+                        color: "white",
+                        padding: "10px",
+                        position: "fixed",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        "z-index": "9999"
+                    })
+                    .appendTo("body");
+                $("#cart").removeClass("bi bi-bag mx-2").addClass("bi bi-bag-check mx-2");
+                setTimeout(function () {
+                    message.fadeOut(function () {
+                        $(this).remove();
+                    });
+                }, 1000);
+            },
+            error: function (data) {
+                var message = $("<div>")
+                    .html("Не удалось добавить товар в корзину!(Авторизируйтесь)")
+                    .addClass("message")
+                    .css({
+                        "background-color": "red",
+                        color: "white",
+                        padding: "10px",
+                        position: "fixed",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        "z-index": "9999"
+                    })
+                    .appendTo("body");
+                setTimeout(function () {
+                    message.fadeOut(function () {
+                        $(this).remove();
+                    });
+                }, 1000);
+            }
+        });
+    }
+</script>
+
+<h1 align="center">Каталог автомобилей</h1>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (var auto in Model) {
+                @*string imagePath = "~/images/" + auto.Id + ".jpg";*@
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(auto.Photo)" class="w-100" asp-append-version="true">
+                        <div class="card-body">
+                            <h2 class="card-title">@auto.Name</h2>
+                            <p class="card-text">@auto.Info</p>
+                            <h4 class="card-title pricing-card-title">@auto.Price &#x20bd</h4>
+                            <a class="w-100 btn btn-lg btn-outline-primary" onclick="addToCart(@auto.Id)">В корзину</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@model AutoShop.ViewModels.AutoModel
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h4>Добавление нового автомобиля</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+            <div class="form-group mt-2 mb-2">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <label asp-for="Info" class="control-label"></label>
+                <input asp-for="Info" class="form-control" />
+                <span asp-validation-for="Info" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <label asp-for="Image" class="control-label"></label>
+                <input id="imageInput" asp-for="Image" type="file" accept="image/*" class="form-control" />
+                <span id="imageError" asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const imageError = document.getElementById('imageError');
+    imageInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+
+        if (file) {
+            const fileSize = file.size;
+            const maxSize = 1024 * 1024;
+
+            if (fileSize > maxSize) {
+                imageError.textContent = 'Размер файла превышает допустимый лимит в ' + maxSize/1024 + " Кбайт";
+                imageInput.value = '';
+                return;
+            }
+        }
+        imageError.textContent = '';
+    });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

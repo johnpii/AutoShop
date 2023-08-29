@@ -1,0 +1,46 @@
+﻿@model IEnumerable<AutoShop.Models.Auto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Список товаров</h1>
+
+<p>
+    <a class="btn btn-outline-success" asp-action="Add">Добавить+</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Info)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var auto in Model) {
+           <tr>
+              <td>
+                @auto.Name
+              </td>
+              <td>
+                @auto.Info
+              </td>
+              <td>
+                @auto.Price
+              </td>
+              <td>
+                <a asp-action="Edit" asp-route-id="@auto.Id">Edit</a> |
+                <a class="text-danger" asp-action="Delete" asp-route-id="@auto.Id">Delete</a>
+              </td>
+           </tr>
+        }
+    </tbody>
+</table>
