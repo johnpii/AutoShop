@@ -88,7 +88,7 @@ namespace AutoShop.Controllers
             return View(result);
         }
 
-        public IActionResult deleteItem(int Id)
+        public IActionResult DeleteItem(int Id)
         {
             var autos = GetAutosInCart();
             var autoToRemove = autos.FirstOrDefault(a => a.Id == Id);
@@ -101,7 +101,7 @@ namespace AutoShop.Controllers
         }
 
         [HttpPost]
-        public void addToCart(int Id)
+        public void AddToCart(int Id)
         {
             var autos = GetAutosInCart();
             var autoToAdd = _autoRepo.FindById(Id);

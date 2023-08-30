@@ -7,7 +7,7 @@
     function addToCart(autoId) {
         $.ajax({
             type: "POST",
-            url: "/Cart/addToCart",
+            url: "/Cart/AddToCart",
             data: { Id: autoId },
             success: function (data) {
                 var message = $("<div>")
