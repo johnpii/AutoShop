@@ -5,27 +5,83 @@
     ViewData["Title"] = "Index";
 }
 
+<script>
+    function deleteItem(count_id) {
+        var xhr = new XMLHttpRequest(); // Создаем объект XMLHttpRequest
+        xhr.open("POST", "/Cart/DeleteItem/" + count_id); // Указываем метод и URL для запроса
+        xhr.send(); // Отправляем запрос
+
+        xhr.onreadystatechange = function () { // Обрабатываем состояния запроса
+            if (xhr.readyState === 4 && xhr.status === 200) { // Если запрос завершен успешно
+
+                // Обновляем сумму заказа
+                var totalPriceElement = document.getElementById('totalPrice');
+                if (totalPriceElement) {
+                    var total = parseFloat(totalPriceElement.innerText);
+                    var priceElement = document.getElementById('price_' + count_id);
+                    if (priceElement) {
+                        var price = parseFloat(priceElement.innerText.replace(/[^0-9.]/g, ''));
+                        total -= price;
+                        totalPriceElement.innerText = total.toFixed(2).replace(".", ",") + ' ₽';
+                    }
+                }
+                // Удаляем карточку товара из DOM
+                var card = document.getElementById('card_' + count_id);
+                if (card) {
+                    card.remove();
+                }
+
+                // Замена значения count_id в разметке
+                var cardElements = document.getElementsByClassName('allItems');
+                for (var i = 0; i < cardElements.length; i++) {
+                    var currentCardId = cardElements[i].id.split('_')[1];
+                    if (parseInt(currentCardId) > parseInt(count_id)) {
+                        var newCardId = parseInt(currentCardId) - 1;
+                        cardElements[i].id = "card_" + newCardId;
+                        var priceElement = document.getElementById('price_' + currentCardId);
+                        if (priceElement) {
+                            priceElement.id = "price_" + newCardId;
+                        }
+                        var deleteButton = cardElements[i].querySelector('.btn-danger');
+                        if (deleteButton) {
+                            deleteButton.setAttribute('onclick', "deleteItem('" + newCardId + "')");
+                        }
+                    }
+                }
+                // Проверка на остаток товаров в корзине
+                var cardCount = document.getElementsByClassName('allItems').length;
+                if (cardCount === 0) {
+                    var page = document.getElementById('main');
+                    page.innerHTML = "<h3 align=\"center\">Корзина пуста <a href=\"/AutoShop/Index\" class=\"link-info\">Посмотреть каталог</a></h3>";
+                }
+            }
+        };
+    }
+</script>
+
 <h1 align="center">Корзина</h1>
 
 <div class="container">
-    <div class="row g-5">
+    <div class="row g-5" id="main">
         @if (Model.FirstOrDefault() !=  null)
         {
             <div class="col-md-7 col-lg-6">
+                @{int count_id = 0;}
                 @foreach (var auto in Model)
                 {
-                    <div class="col mb-4">
+                    <div class="col mb-4 allItems" id="card_@count_id">
                         <div class="card shadow-sm">
                             <img src="data:image/jpeg;base64,@Convert.ToBase64String(auto.Photo)" class="w-100" asp-append-version="true">
                             <div class="card-body">
                                 <h2 class="card-title">@auto.Name</h2>
-                                <h4 class="card-title pricing-card-title">@auto.Price &#x20bd</h4>
+                                <h4 class="card-title pricing-card-title" id="price_@count_id">@auto.Price &#8381;</h4>
                                 <div align="right">
-                                    <a type="button" class="btn btn-danger" asp-controller="Cart" asp-action="DeleteItem" asp-route-id="@auto.Id">Удалить</a>
+                                    <a type="button" class="btn btn-danger" onclick="deleteItem('@count_id')">Удалить</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    count_id++;
                 }
             </div>
             <div class="col-md-5 col-lg-4 order-md-last">
@@ -57,8 +113,8 @@
                   <li class="list-group-item">
                     <h4 class="d-flex justify-content-between align-items-center mt-4 mb-3">
                         Сумма заказа:
-                        <span class="text-primary">
-                            @Model.Sum(a => a.Price) &#x20bd
+                        <span class="text-primary" id="totalPrice">
+                                @Model.Sum(a => a.Price).ToString("F2") &#x20bd
                         </span>
                     </h4>
                   </li>

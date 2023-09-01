@@ -88,16 +88,11 @@ namespace AutoShop.Controllers
             return View(result);
         }
 
-        public IActionResult DeleteItem(int Id)
+        public void DeleteItem(int Id)
         {
             var autos = GetAutosInCart();
-            var autoToRemove = autos.FirstOrDefault(a => a.Id == Id);
-            if (autoToRemove != null)
-            {
-                autos.Remove(autoToRemove);
-                UpdateAutosInCart(autos);
-            }
-            return RedirectToAction("Index", "Cart");
+            autos.RemoveAt(Id);
+            UpdateAutosInCart(autos);
         }
 
         [HttpPost]
