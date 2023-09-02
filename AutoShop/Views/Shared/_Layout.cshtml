@@ -38,7 +38,7 @@
                                     <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
                                     @if (Context.Session.GetString($"cart_{Context.Request.Cookies["userId"]}") != null && User.Identity.IsAuthenticated)
                                     {
-                                        <i class="bi bi-bag-check mx-2" style="font-size: 1.5rem;"></i>
+                                        <i class="bi bi-bag-check mx-2" style="font-size: 1.5rem;" id="cart"></i>
                                     }
                                     else
                                     {

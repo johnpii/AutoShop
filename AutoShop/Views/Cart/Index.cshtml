@@ -53,6 +53,7 @@
                 if (cardCount === 0) {
                     var page = document.getElementById('main');
                     page.innerHTML = "<h3 align=\"center\">Корзина пуста <a href=\"/AutoShop/Index\" class=\"link-info\">Посмотреть каталог</a></h3>";
+                    $("#cart").removeClass("bi bi-bag-check mx-2").addClass("bi bi-bag mx-2");
                 }
             }
         };
