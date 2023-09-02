@@ -13,7 +13,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/Login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+        options.ExpireTimeSpan = ConfigurationHelper.expireTimeCookie;
     });
 builder.Services.AddResponseCompression(options => options.EnableForHttps = true);
 builder.Services.AddAuthorization();
@@ -25,7 +25,7 @@ builder.Services.AddMvc();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(2);
+    options.IdleTimeout = ConfigurationHelper.expireTimeCookie;
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

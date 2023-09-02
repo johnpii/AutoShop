@@ -1,4 +1,5 @@
-﻿using AutoShop.Interfaces;
+﻿using AutoShop.Helpers;
+using AutoShop.Interfaces;
 using AutoShop.Models;
 using AutoShop.Utilities;
 using AutoShop.ViewModels;
@@ -88,7 +89,7 @@ namespace AutoShop.Controllers
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 var options = new CookieOptions
                 {
-                    MaxAge = TimeSpan.FromMinutes(5),
+                    MaxAge = ConfigurationHelper.expireTimeCookie,
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.Strict
