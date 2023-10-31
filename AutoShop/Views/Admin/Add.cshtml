@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "Add";
 }
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.getElementById('imagePreview').src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
 <h4>Добавление нового автомобиля</h4>
 <hr />
@@ -28,7 +41,8 @@
             </div>
             <div class="form-group mt-2 mb-2">
                 <label asp-for="Image" class="control-label"></label>
-                <input id="imageInput" asp-for="Image" type="file" accept="image/*" class="form-control" />
+                <input id="imageInput" asp-for="Image" type="file" accept="image/*" class="form-control" onchange="previewImage(this);" />
+                <img id="imagePreview" src="" class="w-50 mt-1" asp-append-version="true">
                 <span id="imageError" asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group mt-2 mb-2">
