@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  autoshop:
+    container_name: autoshop_container
+    image: ${DOCKER_REGISTRY-}autoshop
+    build:
+      context: .
+      dockerfile: AutoShop/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - mongodb
+      - sqlserver
+
+  mongodb:
+    container_name: mongodb_container
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  sqlserver:
+    container_name: sqlserver_container
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "Polo1234polo"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
