@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build ./AutoShop/AutoShop.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build ./AutoShop.Tests/AutoShop.Tests.csproj --verbosity normal
+      run: dotnet test ./AutoShop.Tests/AutoShop.Tests.csproj --no-build --verbosity normal
