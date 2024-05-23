@@ -49,7 +49,7 @@ namespace AutoShop.Tests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<List<AutoModelWithIdAndImage>>(viewResult.Model);
 
-            Assert.Equal(2, model.Count);
+            Assert.Equal(3, model.Count);
             Assert.Equal(autos[0].Id, model[0].Id);
             Assert.Equal(autos[0].Name, model[0].Name);
             Assert.Equal(autos[0].Info, model[0].Info);
