@@ -1,8 +1,6 @@
 ﻿using AutoShop.Interfaces;
 using AutoShop.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
-using System.Text.Json;
 
 namespace AutoShop.Controllers
 {
