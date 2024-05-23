@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./AutoShop/AutoShop.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./AutoShop/AutoShop.csproj --no-restore
     - name: Test
       run: dotnet test --no-build ./AutoShop.Tests/AutoShop.Tests.csproj --verbosity normal
