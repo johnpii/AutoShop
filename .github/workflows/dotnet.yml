@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./AutoShop.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./AutoShop.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ./AutoShop.Tests/AutoShop.Tests.csproj --no-build --verbosity normal
