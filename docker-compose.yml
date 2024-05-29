@@ -1,14 +1,17 @@
 version: '3.4'
 
+name: autoshop
+
 services:
   autoshop:
-    container_name: autoshop_container
+    container_name: backend_container
     image: ${DOCKER_REGISTRY-}autoshop
     build:
       context: .
       dockerfile: AutoShop/Dockerfile
     ports:
-      - "8080:80"
+      - "5000:5000"
+      - "5001:5001"
     depends_on:
       - mongodb
       - sqlserver
