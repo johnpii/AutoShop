@@ -28,4 +28,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.8" />
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
   </ItemGroup>
+
+  <ItemGroup>
+	  <InternalsVisibleTo Include="AutoShop.Tests" />
+  </ItemGroup>
 </Project>

@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace AutoShop.Tests
+namespace AutoShop.Tests.UnitTests
 {
-    public class AdminControllerTests
+    public class AdminControllerUnitTests
     {
         private readonly Mock<IAutoRepository> _autoRepoMock;
         private readonly Mock<IImageRepository> _dbMock;
 
         private readonly AutoShopController _autoShopController;
 
-        public AdminControllerTests()
+        public AdminControllerUnitTests()
         {
             _autoRepoMock = new Mock<IAutoRepository>();
             _dbMock = new Mock<IImageRepository>();

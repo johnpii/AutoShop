@@ -76,15 +76,15 @@ namespace AutoShop.Controllers
                 User? user = _userRepo.FindByEmailAndPassWord(data.Email, data.Password);
                 if (user is null)
                 {
-                    ViewBag.Error = "Пользователь не найден ! ";
+                    ViewBag.Error = "Пользователь не найден или неправильные данные ! ";
                     return View();
                 }
                 var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
-            };
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+                };
                 var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 var options = new CookieOptions
