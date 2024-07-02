@@ -1,8 +1,10 @@
-﻿using AutoShop.Interfaces;
+﻿using AutoShop.Hubs;
+using AutoShop.Interfaces;
 using AutoShop.Models;
 using AutoShop.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
 
 namespace AutoShop.Controllers
@@ -12,11 +14,13 @@ namespace AutoShop.Controllers
     {
         private readonly IAutoRepository _autoRepo;
         private readonly IImageRepository _imageRepo;
+        private readonly IHubContext<AutoShopHub> _autoShopHub;
 
-        public AdminController(IAutoRepository autoRepo, IImageRepository imageRepo)
+        public AdminController(IAutoRepository autoRepo, IImageRepository imageRepo, IHubContext<AutoShopHub> autoShopHub)
         {
             _autoRepo = autoRepo;
             _imageRepo = imageRepo;
+            _autoShopHub = autoShopHub;
         }
         public async Task<IActionResult> Index()
         {
@@ -29,7 +33,7 @@ namespace AutoShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(AutoModel autoModel)
+        public async Task<IActionResult> Add(AutoModel autoModel)
         {
             if (ModelState.IsValid)
             {
@@ -51,6 +55,17 @@ namespace AutoShop.Controllers
                         image.Photo = memoryStream.ToArray();
                         collection.InsertOne(image);
                     }
+
+                    var newAuto = new AutoModelWithIdAndImage
+                    {
+                        Id = auto.Id,
+                        Name = auto.Name,
+                        Info = auto.Info,
+                        Photo = image.Photo,
+                        Price = auto.Price
+                    };
+                    await _autoShopHub.Clients.All.SendAsync("newAuto", newAuto);
+
                     return RedirectToAction("Index", "Admin");
                 }
                 else
@@ -78,7 +93,7 @@ namespace AutoShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteAuto(int id)
+        public async Task<IActionResult> DeleteAuto(int id)
         {
             if (ModelState.IsValid)
             {
@@ -90,6 +105,8 @@ namespace AutoShop.Controllers
                     _autoRepo.DeleteAuto(auto);
                     string imageName = id + ".jpg";
                     collection.FindOneAndDeleteAsync(p => p.FileName == imageName);
+
+                    await _autoShopHub.Clients.All.SendAsync("deleteAuto", auto.Id);
                     return RedirectToAction("Index", "Admin");
                 }
                 else

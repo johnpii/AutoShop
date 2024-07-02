@@ -1,5 +1,6 @@
 using AutoShop.Data;
 using AutoShop.Helpers;
+using AutoShop.Hubs;
 using AutoShop.Interfaces;
 using AutoShop.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -21,6 +22,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSingleton(new MongoClient(builder.Configuration.GetSection("MongoDB:ConnectionString").Value).GetDatabase(builder.Configuration.GetSection("MongoDB:DatabaseName").Value));
 builder.Services.AddMvc();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -58,6 +61,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<AutoShopHub>("/AutoShopHub");
 
 app.Run();
 

@@ -3,73 +3,20 @@
     ViewData["Title"] = "Index";
 }
 
-<script>
-    function addToCart(autoId) {
-        $.ajax({
-            type: "POST",
-            url: "/Cart/AddToCart",
-            data: { Id: autoId },
-            success: function (data) {
-                var message = $("<div>")
-                    .html("Товар добавлен в корзину!")
-                    .addClass("message")
-                    .css({
-                        "background-color": "green",
-                        color: "white",
-                        padding: "10px",
-                        position: "fixed",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        "z-index": "9999"
-                    })
-                    .appendTo("body");
-                $("#cart").removeClass("bi bi-bag mx-2").addClass("bi bi-bag-check mx-2");
-                setTimeout(function () {
-                    message.fadeOut(function () {
-                        $(this).remove();
-                    });
-                }, 1000);
-            },
-            error: function (data) {
-                var message = $("<div>")
-                    .html("Не удалось добавить товар в корзину!(Авторизируйтесь)")
-                    .addClass("message")
-                    .css({
-                        "background-color": "red",
-                        color: "white",
-                        padding: "10px",
-                        position: "fixed",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        "z-index": "9999"
-                    })
-                    .appendTo("body");
-                setTimeout(function () {
-                    message.fadeOut(function () {
-                        $(this).remove();
-                    });
-                }, 1000);
-            }
-        });
-    }
-</script>
-
 <h1 align="center">Каталог автомобилей</h1>
 
 <div class="album py-5 bg-light">
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            @foreach (var auto in Model) {
-                @*string imagePath = "~/images/" + auto.Id + ".jpg";*@
-                <div class="col">
+        <div id="autoList" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (var auto in Model)
+            {
+                <div class="col" id="auto-@auto.Id">
                     <div class="card shadow-sm">
                         <img src="data:image/jpeg;base64,@Convert.ToBase64String(auto.Photo)" class="w-100" asp-append-version="true">
                         <div class="card-body">
                             <h2 class="card-title">@auto.Name</h2>
                             <p class="card-text">@auto.Info</p>
-                            <h4 class="card-title pricing-card-title">@auto.Price &#x20bd</h4>
+                            <h4 class="card-title pricing-card-title">@auto.Price.ToString("0.00") &#x20bd;</h4>
                             <a class="w-100 btn btn-lg btn-outline-primary" onclick="addToCart(@auto.Id)">В корзину</a>
                         </div>
                     </div>
@@ -78,3 +25,95 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script>
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/AutoShopHub")
+            .build();
+
+        hubConnection.on("newAuto", function (auto) {
+            var autoList = document.getElementById("autoList");
+
+            var newAutoHtml = `
+                        <div class="col" id="auto-${auto.id}">
+                            <div class="card shadow-sm">
+                                <img src="data:image/jpeg;base64,${auto.photo}" class="w-100">
+                                <div class="card-body">
+                                    <h2 class="card-title">${auto.name}</h2>
+                                    <p class="card-text">${auto.info}</p>
+                                    <h4 class="card-title pricing-card-title">${auto.price.toFixed(2)} &#x20bd;</h4>
+                                    <a class="w-100 btn btn-lg btn-outline-primary" onclick="addToCart(${auto.id})">В корзину</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+            // Append the new auto HTML to the autoList
+            autoList.insertAdjacentHTML('beforeend', newAutoHtml);
+        });
+
+        hubConnection.on("deleteAuto", function (id) {
+            var autoElement = document.getElementById("auto-" + id);
+            if (autoElement) {
+                autoElement.remove();
+            }
+        });
+
+        hubConnection.start()
+            .then(() => console.log('SignalR Connected'))
+            .catch(err => console.error('SignalR Connection Error: ', err));
+
+        function addToCart(autoId) {
+            $.ajax({
+                type: "POST",
+                url: "/Cart/AddToCart",
+                data: { Id: autoId },
+                success: function (data) {
+                    var message = $("<div>")
+                        .html("Товар добавлен в корзину!")
+                        .addClass("message")
+                        .css({
+                            "background-color": "green",
+                            color: "white",
+                            padding: "10px",
+                            position: "fixed",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            "z-index": "9999"
+                        })
+                        .appendTo("body");
+                    $("#cart").removeClass("bi bi-bag mx-2").addClass("bi bi-bag-check mx-2");
+                    setTimeout(function () {
+                        message.fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }, 1000);
+                },
+                error: function (data) {
+                    var message = $("<div>")
+                        .html("Не удалось добавить товар в корзину! (Авторизируйтесь)")
+                        .addClass("message")
+                        .css({
+                            "background-color": "red",
+                            color: "white",
+                            padding: "10px",
+                            position: "fixed",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            "z-index": "9999"
+                        })
+                        .appendTo("body");
+                    setTimeout(function () {
+                        message.fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }, 1000);
+                }
+            });
+        }
+    </script>
+}

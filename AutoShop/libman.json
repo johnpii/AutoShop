@@ -1,5 +1,10 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": []
+  "libraries": [
+    {
+      "library": "microsoft-signalr@7.0.0",
+      "destination": "wwwroot/lib/microsoft-signalr/"
+    }
+  ]
 }
