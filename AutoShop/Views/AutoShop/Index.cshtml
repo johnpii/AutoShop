@@ -61,6 +61,24 @@
             }
         });
 
+        hubConnection.on("updateAuto", function (auto) {
+            var autoElement = document.getElementById("auto-" + auto.id);
+            if (autoElement) {
+                autoElement.innerHTML = `
+                    <div class="card shadow-sm">
+                        <img src="data:image/jpeg;base64,${auto.photo}" class="w-100">
+                        <div class="card-body">
+                            <h2 class="card-title">${auto.name}</h2>
+                            <p class="card-text">${auto.info}</p>
+                            <h4 class="card-title pricing-card-title">${auto.price.toFixed(2)} &#x20bd;</h4>
+                            <a class="w-100 btn btn-lg btn-outline-primary" onclick="addToCart(${auto.id})">В корзину</a>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+
         hubConnection.start()
             .then(() => console.log('SignalR Connected'))
             .catch(err => console.error('SignalR Connection Error: ', err));

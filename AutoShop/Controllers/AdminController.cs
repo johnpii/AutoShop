@@ -140,7 +140,7 @@ namespace AutoShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(AutoModelWithId autoModel)
+        public async Task<IActionResult> Edit(AutoModelWithId autoModel)
         {
             if (ModelState.IsValid)
             {
@@ -164,6 +164,17 @@ namespace AutoShop.Controllers
                             collection.FindOneAndReplaceAsync(p => p.FileName == imageName, image);
                         }
                     }
+
+                    var updatedAuto = new AutoModelWithIdAndImage
+                    {
+                        Id = auto.Id,
+                        Name = auto.Name,
+                        Info = auto.Info,
+                        Photo = image.Photo,
+                        Price = auto.Price
+                    };
+
+                    await _autoShopHub.Clients.All.SendAsync("updateAuto", updatedAuto);
                     return RedirectToAction("Index", "Admin");
                 }
                 else
