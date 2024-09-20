@@ -10,6 +10,9 @@ using System.Security.Claims;
 
 namespace AutoShop.Controllers
 {
+    /// <summary>
+    /// Контроллер для действий, связанных с пользователем
+    /// </summary>
     public class AccountController : Controller
     {
         private readonly IUserRepository _userRepo;

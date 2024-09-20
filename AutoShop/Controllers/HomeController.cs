@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace AutoShop.Controllers
 {
+    /// <summary>
+    /// Контроллер для домашней страницы
+    /// </summary>
     public class HomeController : Controller
     {
 
