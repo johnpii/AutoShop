@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoShop.Controllers
 {
+    /// <summary>
+    /// Контроллер для каталога автомобилей
+    /// </summary>
     public class AutoShopController : Controller
     {
         private readonly IAutoRepository _autoRepo;

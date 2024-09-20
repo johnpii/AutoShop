@@ -8,6 +8,10 @@ using Newtonsoft.Json;
 
 namespace AutoShop.Controllers
 {
+    /// <summary>
+    /// Контроллер для действий, связанных с корзиной
+    /// </summary>
+    /// 
     [Authorize]
     public class CartController : Controller
     {

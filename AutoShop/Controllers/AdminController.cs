@@ -9,6 +9,9 @@ using MongoDB.Driver;
 
 namespace AutoShop.Controllers
 {
+    /// <summary>
+    /// Контроллер для действий, доступных только админу
+    /// </summary>
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
