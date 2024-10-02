@@ -12,15 +12,16 @@ services:
     ports:
       - "5000:5000"
       - "5001:5001"
-    depends_on:
-      - mongodb
-      - sqlserver
+    volumes:
+      - autoshop_webapp:/app/data
 
   mongodb:
     container_name: mongodb_container
     image: mongo:latest
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
 
   sqlserver:
     container_name: sqlserver_container
@@ -30,3 +31,10 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+volumes:
+  autoshop_webapp:
+  mongodb_data:
+  sqlserver_data:
