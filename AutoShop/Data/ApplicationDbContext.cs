@@ -1,5 +1,7 @@
 ﻿using AutoShop.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoShop.Utilities;
+using AutoShop.Helpers;
 
 namespace AutoShop.Data
 {
@@ -12,6 +14,7 @@ namespace AutoShop.Data
 
         public DbSet<Auto> Autos { get; set; }
         public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Auto>().Property(x => x.Id).ValueGeneratedOnAdd();
@@ -27,7 +30,17 @@ namespace AutoShop.Data
             modelBuilder.Entity<User>().Property(y => y.Password).IsRequired();
             modelBuilder.Entity<User>().Property(y => y.Password).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(y => y.Role).HasMaxLength(10);
+
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Email = ConfigurationHelper.config.GetSection("AdminDefaultEmail").Value,
+                    Username = "Admin",
+                    Password = PasswordEncryption.EncryptPassword(ConfigurationHelper.config.GetSection("AdminDefaultPassword").Value),
+                    Role = "admin"
+                }
+            );
         }
     }
-
 }

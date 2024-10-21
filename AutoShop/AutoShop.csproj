@@ -32,4 +32,8 @@
   <ItemGroup>
 	  <InternalsVisibleTo Include="AutoShop.Tests" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>
