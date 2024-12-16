@@ -5,13 +5,12 @@ name: autoshop
 services:
   autoshop:
     container_name: backend_container
-    image: ${DOCKER_REGISTRY-}autoshop
+    image: autoshop:latest
     build:
       context: .
       dockerfile: AutoShop/Dockerfile
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "5000:80"
     volumes:
       - autoshop_webapp:/app/data
 

@@ -4,10 +4,9 @@ services:
   autoshop:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:5001;http://+:80
+      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "5000:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

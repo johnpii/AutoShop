@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    io.kompose.service: sqlserver
+  name: sqlserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sqlserver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        io.kompose.service: sqlserver
+    spec:
+      containers:
+        - env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              value: Polo1234polo
+          image: mcr.microsoft.com/mssql/server:2019-latest
+          name: sqlserver-container
+          ports:
+            - containerPort: 1433
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/opt/mssql
+              name: sqlserver-data
+      restartPolicy: Always
+      volumes:
+        - name: sqlserver-data
+          persistentVolumeClaim:
+            claimName: sqlserver-data

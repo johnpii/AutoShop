@@ -1,0 +1,21 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: autoshop
+build:
+  artifacts:
+    - image: autoshop
+      context: AutoShop
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - autoshop-deployment.yaml
+    - autoshop-service.yaml
+    - autoshop-webapp-persistentvolumeclaim.yaml
+    - mongodb-data-persistentvolumeclaim.yaml
+    - mongodb-deployment.yaml
+    - mongodb-service.yaml
+    - sqlserver-data-persistentvolumeclaim.yaml
+    - sqlserver-deployment.yaml
+    - sqlserver-service.yaml
