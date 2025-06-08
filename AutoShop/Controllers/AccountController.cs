@@ -1,4 +1,4 @@
-п»їusing AutoShop.Helpers;
+using AutoShop.Helpers;
 using AutoShop.Interfaces;
 using AutoShop.Models;
 using AutoShop.Utilities;
@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace AutoShop.Controllers
 {
     /// <summary>
-    /// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РґРµР№СЃС‚РІРёР№, СЃРІСЏР·Р°РЅРЅС‹С… СЃ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј
+    /// Контроллер для действий, связанных с пользователем
     /// </summary>
     public class AccountController : Controller
     {
@@ -43,13 +43,13 @@ namespace AutoShop.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ С‚Р°РєРѕР№ РїРѕС‡С‚РѕР№ СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ ! ";
+                    ViewBag.Error = "Пользователь с такой почтой уже существует ! ";
                     return View();
                 }
             }
             else
             {
-                ViewBag.Error = "РќРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ ! ";
+                ViewBag.Error = "Некорректные данные ! ";
                 return View();
             }
         }
@@ -79,7 +79,7 @@ namespace AutoShop.Controllers
                 User? user = _userRepo.FindByEmailAndPassWord(data.Email, data.Password);
                 if (user is null)
                 {
-                    ViewBag.Error = "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ РёР»Рё РЅРµРїСЂР°РІРёР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ ! ";
+                    ViewBag.Error = "Пользователь не найден или неправильные данные ! ";
                     return View();
                 }
                 var claims = new List<Claim>
@@ -106,7 +106,7 @@ namespace AutoShop.Controllers
             }
             else
             {
-                ViewBag.Error = "РќРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ ! ";
+                ViewBag.Error = "Некорректные данные ! ";
                 return View();
             }
         }

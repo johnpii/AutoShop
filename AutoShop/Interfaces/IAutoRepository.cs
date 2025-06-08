@@ -1,10 +1,10 @@
-﻿using AutoShop.Models;
+using AutoShop.Models;
 
 namespace AutoShop.Interfaces
 {
     public interface IAutoRepository
     {
-        Task<List<Auto>> GetAllAutos();
+        Task<List<Auto>> GetAllAutos(CancellationToken cancellationToken);
         Auto FindById(int id);
         void Save();
         void AddAuto(Auto auto);

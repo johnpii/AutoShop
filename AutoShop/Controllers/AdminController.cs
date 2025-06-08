@@ -1,4 +1,4 @@
-п»їusing AutoShop.Hubs;
+using AutoShop.Hubs;
 using AutoShop.Interfaces;
 using AutoShop.Models;
 using AutoShop.ViewModels;
@@ -10,7 +10,7 @@ using MongoDB.Driver;
 namespace AutoShop.Controllers
 {
     /// <summary>
-    /// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РґРµР№СЃС‚РІРёР№, РґРѕСЃС‚СѓРїРЅС‹С… С‚РѕР»СЊРєРѕ Р°РґРјРёРЅСѓ
+    /// Контроллер для действий, доступных только админу
     /// </summary>
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
@@ -25,9 +25,9 @@ namespace AutoShop.Controllers
             _imageRepo = imageRepo;
             _autoShopHub = autoShopHub;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            return View(await _autoRepo.GetAllAutos());
+            return View(await _autoRepo.GetAllAutos(cancellationToken));
         }
 
         public IActionResult Add()
@@ -36,7 +36,7 @@ namespace AutoShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AutoModel autoModel)
+        public async Task<IActionResult> Add(AutoModel autoModel, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
@@ -67,19 +67,19 @@ namespace AutoShop.Controllers
                         Photo = image.Photo,
                         Price = auto.Price
                     };
-                    await _autoShopHub.Clients.All.SendAsync("newAuto", newAuto);
+                    await _autoShopHub.Clients.All.SendAsync("newAuto", newAuto, cancellationToken);
 
                     return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
-                    ViewBag.Error = "РЎРµСЂРІРёСЃ РЅРµ РґРѕСЃС‚СѓРїРµРЅ ";
+                    ViewBag.Error = "Сервис не доступен ";
                     return StatusCode(503);
                 }
             }
             else
             {
-                ViewBag.Error = "РќРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ ! ";
+                ViewBag.Error = "Некорректные данные ! ";
                 return View();
             }
         }
@@ -96,7 +96,7 @@ namespace AutoShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteAuto(int id)
+        public async Task<IActionResult> DeleteAuto(int id, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
@@ -109,18 +109,18 @@ namespace AutoShop.Controllers
                     string imageName = id + ".jpg";
                     collection.FindOneAndDeleteAsync(p => p.FileName == imageName);
 
-                    await _autoShopHub.Clients.All.SendAsync("deleteAuto", auto.Id);
+                    await _autoShopHub.Clients.All.SendAsync("deleteAuto", auto.Id, cancellationToken);
                     return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
-                    ViewBag.Error = "РЎРµСЂРІРёСЃ РЅРµ РґРѕСЃС‚СѓРїРµРЅ ";
+                    ViewBag.Error = "Сервис не доступен ";
                     return StatusCode(503);
                 }
             }
             else
             {
-                ViewBag.Error = "РќРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ ! ";
+                ViewBag.Error = "Некорректные данные ! ";
                 return View("Delete");
             }
         }
@@ -143,7 +143,7 @@ namespace AutoShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AutoModelWithId autoModel)
+        public async Task<IActionResult> Edit(AutoModelWithId autoModel, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
@@ -177,18 +177,18 @@ namespace AutoShop.Controllers
                         Price = auto.Price
                     };
 
-                    await _autoShopHub.Clients.All.SendAsync("updateAuto", updatedAuto);
+                    await _autoShopHub.Clients.All.SendAsync("updateAuto", updatedAuto, cancellationToken);
                     return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
-                    ViewBag.Error = "РЎРµСЂРІРёСЃ РЅРµ РґРѕСЃС‚СѓРїРµРЅ ";
+                    ViewBag.Error = "Сервис не доступен ";
                     return StatusCode(503);
                 }
             }
             else
             {
-                ViewBag.Error = "РќРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ ! ";
+                ViewBag.Error = "Некорректные данные ! ";
                 return View();
             }
         }

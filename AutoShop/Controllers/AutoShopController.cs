@@ -1,11 +1,11 @@
-п»їusing AutoShop.Interfaces;
+using AutoShop.Interfaces;
 using AutoShop.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoShop.Controllers
 {
     /// <summary>
-    /// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РєР°С‚Р°Р»РѕРіР° Р°РІС‚РѕРјРѕР±РёР»РµР№
+    /// Контроллер для каталога автомобилей
     /// </summary>
     public class AutoShopController : Controller
     {
@@ -24,10 +24,10 @@ namespace AutoShop.Controllers
             _autoRepo = autoRepo;
             _imageRepo = imageRepo;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             var images = _imageRepo.GetAllImages();
-            var autos = await _autoRepo.GetAllAutos();
+            var autos = await _autoRepo.GetAllAutos(cancellationToken);
 
             //List<AutoModelWithIdAndImage> result = null;
             //var allAutos = await _cache.GetStringAsync("allAutos");
@@ -38,7 +38,7 @@ namespace AutoShop.Controllers
             //    var autos = await _autoRepo.GetAllAutos();
             //    if (autos != null && images != null)
             //    {
-            //        Console.WriteLine("РР·РІР»РµС‡РµРЅРёРµ РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С…");
+            //        Console.WriteLine("Извлечение из базы данных");
             //        result = new List<AutoModelWithIdAndImage>();
             //        for (int i = 0; i < autos.Count; i++)
             //        {
@@ -61,7 +61,7 @@ namespace AutoShop.Controllers
             //}
             //else
             //{
-            //    Console.WriteLine("РР·РІР»РµС‡РµРЅРёРµ РёР· РєСЌС€Р°");
+            //    Console.WriteLine("Извлечение из кэша");
             //}
             //return View(result);
 

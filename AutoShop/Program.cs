@@ -25,7 +25,7 @@ builder.Services.AddMvc();
 
 builder.Services.AddSignalR();
 
-builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = ConfigurationHelper.expireTimeCookie;

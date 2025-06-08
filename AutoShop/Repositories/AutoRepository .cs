@@ -1,4 +1,4 @@
-﻿using AutoShop.Data;
+using AutoShop.Data;
 using AutoShop.Interfaces;
 using AutoShop.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +12,9 @@ namespace AutoShop.Repositories
         {
             _context = context;
         }
-        public async Task<List<Auto>> GetAllAutos()
+        public async Task<List<Auto>> GetAllAutos(CancellationToken cancellationToken)
         {
-            return await _context.Autos.ToListAsync();
+            return await _context.Autos.ToListAsync(cancellationToken);
         }
 
         public Auto FindById(int id)
