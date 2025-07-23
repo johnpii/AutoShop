@@ -1,4 +1,4 @@
-using AutoShop.Models;
+using AutoShop.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

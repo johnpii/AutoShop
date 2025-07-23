@@ -1,5 +1,5 @@
+using AutoShop.Entities;
 using AutoShop.Helpers;
-using AutoShop.Models;
 using AutoShop.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

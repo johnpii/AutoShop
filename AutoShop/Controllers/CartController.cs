@@ -1,4 +1,5 @@
-п»їusing AutoShop.Interfaces;
+using AutoShop.Entities;
+using AutoShop.Interfaces;
 using AutoShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using Newtonsoft.Json;
 namespace AutoShop.Controllers
 {
     /// <summary>
-    /// РљРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РґРµР№СЃС‚РІРёР№, СЃРІСЏР·Р°РЅРЅС‹С… СЃ РєРѕСЂР·РёРЅРѕР№
+    /// Контроллер для действий, связанных с корзиной
     /// </summary>
     /// 
     [Authorize]

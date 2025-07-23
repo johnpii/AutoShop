@@ -1,4 +1,4 @@
-using AutoShop.Models;
+using AutoShop.Entities;
 
 namespace AutoShop.Interfaces
 {

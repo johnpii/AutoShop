@@ -1,8 +1,7 @@
-﻿namespace AutoShop.Models
+namespace AutoShop.Entities
 {
-    public class Auto
+    public class Auto : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Info { get; set; }
         public float Price { get; set; }

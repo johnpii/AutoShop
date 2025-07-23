@@ -1,5 +1,5 @@
 using AutoShop.Data.Configurations;
-using AutoShop.Models;
+using AutoShop.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.Data

@@ -1,6 +1,6 @@
+using AutoShop.Entities;
 using AutoShop.Helpers;
 using AutoShop.Interfaces;
-using AutoShop.Models;
 using AutoShop.Utilities;
 using AutoShop.ViewModels;
 using Microsoft.AspNetCore.Authentication;

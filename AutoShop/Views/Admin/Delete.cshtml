@@ -1,12 +1,13 @@
-п»ї@model AutoShop.Models.Auto
+@using AutoShop.Entities
+@model Auto
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1>РЈРґР°Р»РµРЅРёРµ</h1>
+<h1>Удаление</h1>
 
-<h3>Р’С‹ СѓРІРµСЂРµРЅС‹ С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ СЌС‚Рѕ ?</h3>
+<h3>Вы уверены что хотите удалить это ?</h3>
 <div>
     @if (ViewBag.Error != null)
     {

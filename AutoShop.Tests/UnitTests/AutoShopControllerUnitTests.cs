@@ -1,4 +1,5 @@
 using AutoShop.Controllers;
+using AutoShop.Entities;
 using AutoShop.Interfaces;
 using AutoShop.Models;
 using Microsoft.AspNetCore.Mvc;

@@ -1,3 +1,4 @@
+using AutoShop.Entities;
 using AutoShop.Hubs;
 using AutoShop.Interfaces;
 using AutoShop.Models;

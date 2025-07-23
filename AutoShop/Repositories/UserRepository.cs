@@ -1,6 +1,6 @@
-﻿using AutoShop.Data;
+using AutoShop.Data;
+using AutoShop.Entities;
 using AutoShop.Interfaces;
-using AutoShop.Models;
 using AutoShop.Utilities;
 
 namespace AutoShop.Repositories

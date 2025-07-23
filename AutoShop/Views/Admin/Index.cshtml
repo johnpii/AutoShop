@@ -1,13 +1,14 @@
-п»ї@model IEnumerable<AutoShop.Models.Auto>
+@using AutoShop.Entities
+@model IEnumerable<Auto>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>РЎРїРёСЃРѕРє С‚РѕРІР°СЂРѕРІ</h1>
+<h1>Список товаров</h1>
 
 <p>
-    <a class="btn btn-outline-success" asp-action="Add">Р”РѕР±Р°РІРёС‚СЊ+</a>
+    <a class="btn btn-outline-success" asp-action="Add">Добавить+</a>
 </p>
 <table class="table">
     <thead>
